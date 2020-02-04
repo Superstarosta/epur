@@ -1,4 +1,5 @@
 import copy
+
 def Gauss(M):
     n = len(M)
     for i in range(n):
@@ -21,6 +22,7 @@ def Gauss(M):
     for i in range(n-1,-1,-1):
         for j in range(i+1,n):
             M[i][n]-=M[i][j]*M[j][n]
+
 class EpurData:
     def __init__ (self,twosided = False, E = 1., eps_L = 0.01, s_start = 10, s_finish = 100, rods = [] ,nodes = []):
         self.twosided = twosided
