@@ -1,6 +1,7 @@
 import copy
 
 def Gauss(M):
+    """Solve matrix equation with Gauss method"""
     n = len(M)
     for i in range(n):
         for j in range(i,n):
@@ -24,14 +25,15 @@ def Gauss(M):
             M[i][n]-=M[i][j]*M[j][n]
 
 class EpurData:
+    """Keep data about rods"""
     def __init__ (self,twosided = False, E = 1., eps_L = 0.01, s_start = 10, s_finish = 100, rods = [] ,nodes = []):
-        self.twosided = twosided
-        self.rods = rods
-        self.nodes = nodes
-        self.E = E
-        self.eps_L = eps_L
-        self.s_start = s_start
-        self.s_finish = s_finish
+        self.twosided = twosided    #симметричность
+        self.rods = rods            #стержни
+        self.nodes = nodes          #точки приложения сил
+        self.E = E                  #модуль упругости
+        self.eps_L = eps_L          #шаг рассчетов
+        self.s_start = s_start      #координата начала стержня
+        self.s_finish = s_finish    #координата конца
         self.MakeMatrix()
         self.rp = [0]+self.nodes
         if self.twosided:
@@ -64,22 +66,23 @@ class EpurData:
         return [ K[i][nnodes] for i in range(nnodes) ]
 
 def LoadEpur(fileName):
+    """Load data from file"""
     f = open(fileName,"r")
-    ts = (f.readline().strip() == "True")
-    E = float(f.readline())
-    eps_L = float(f.readline())
-    s_start = float(f.readline())
-    s_finish = float(f.readline())
-    nrods = int(f.readline())
+    ts = ((f.readline()).split('=')[1].strip() == "True")
+    E = float((f.readline()).split('=')[1].strip())
+    eps_L = float((f.readline()).split('=')[1].strip())
+    s_start = float((f.readline()).split('=')[1].strip())
+    s_finish = float((f.readline()).split('=')[1].strip())
+    nrods = int((f.readline()).split('=')[1].strip())
     rods = []
     for i in range(nrods):
-        l = float(f.readline())
-        a = float(f.readline())
-        rods.append([l,a])
+        length = float((f.readline()).split('=')[1].strip())
+        diameter = float((f.readline()).split('=')[1].strip())
+        rods.append([length,diameter])
     nnodes = nrods - 1 if ts else nrods
     nodes = []
     for i in range(nnodes):
-        nodes.append(float(f.readline()))
+        nodes.append(float((f.readline()).split('=')[1].strip()))
     return EpurData(ts,E, eps_L, s_start, s_finish, rods,nodes)
 
 

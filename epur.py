@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 from PyQt5 import QtWidgets
 from epur_ui import Ui_MainWindow
 from epur_draw import EpurDraw
@@ -15,12 +14,14 @@ class AppWindow(QtWidgets.QMainWindow):
         self.EpurDraw = EpurDraw(self.ui.widget)
         self.ed = None
     def fileLoad(self):
+        """Загрузка файла данных"""
         l = QtWidgets.QFileDialog.getOpenFileName(self,"Выберите конфигурацию","","Стержни (*.epr);;Все файлы (*)")
         print(l)
         self.ed = LoadEpur(l[0])
         self.EpurDraw.SetData(self.ed)
         self.EpurDraw.repaint()
     def smaShow(self):
+        """Обработчик кнопки 'Исходное'"""
         if self.ed != None:
             DrawNN(self.ed)
 
