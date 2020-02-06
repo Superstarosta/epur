@@ -10,10 +10,10 @@ def MakeXi(edata,scur):
     else:
         return 0.5+0.5*math.cos(math.pi*(scur-edata.s_finish)/(edata.s_start-edata.s_finish))
 
-def MakeNsma(edata,F,A):
-    scur = F/A;
+def MakeNsma(edata,F,rod_diameter):
+    scur = F/rod_diameter
     xi = MakeXi(edata,scur)
-    return edata.eps_L*xi*edata.E*A
+    return edata.eps_L*xi*edata.elastic*rod_diameter
  
 def DrawNN(edata):
     """Рисование зависимости сил...."""
@@ -23,7 +23,7 @@ def DrawNN(edata):
 
     for i in range(len(edata.rods)):
         rod = edata.rods[i]
-        NCMax = int(edata.s_finish*rod[1]/50)*50+100
+        NCMax = int(edata.s_finish*rod[1]/50.)*50+100
         NMax = max(NMax,NCMax)
         step_arr = range(0,NCMax,50)
         y = [MakeNsma(edata,F,rod[1]) for F in step_arr ]
@@ -33,9 +33,9 @@ def DrawNN(edata):
     step_arr = range(0,NMax,50)
     ys = [[] for _ in range(nnodes) ]
     for F in step_arr:
-        NSma = [ MakeNsma(edata,F,rod[1]) for r in edata.rods ]
+        NSma = [ MakeNsma(edata,F,rod[1]) for rod in edata.rods ]
         RP=[0]
-        for i in range(1,len(edata.rp)-1):
+        for i in range(1,nnodes-1):
             RP.append(F*edata.rp[i]-NSma[i]+NSma[i-1])
 
         if edata.twosided:

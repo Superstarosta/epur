@@ -6,7 +6,7 @@ def Gauss(M):
     for i in range(n):
         for j in range(i,n):
             if M[j][i] != 0:
-                break;
+                break
         if j != i:
             tmp = M[j]
             M[j] = M[i]
@@ -26,11 +26,23 @@ def Gauss(M):
 
 class EpurData:
     """Keep data about rods"""
+    twosided=False
+    rods=[]
+    nodes=[]
+    elastic=1.
+    eps_L=0.01
+    s_start=10
+    s_finish=100
+    K=[]
+    rp=[]
+    a=[]
+
+
     def __init__ (self,twosided = False, E = 1., eps_L = 0.01, s_start = 10, s_finish = 100, rods = [] ,nodes = []):
         self.twosided = twosided    #симметричность
         self.rods = rods            #стержни
         self.nodes = nodes          #точки приложения сил
-        self.E = E                  #модуль упругости
+        self.elastic = E                  #модуль упругости
         self.eps_L = eps_L          #шаг рассчетов
         self.s_start = s_start      #координата начала стержня
         self.s_finish = s_finish    #координата конца
@@ -46,7 +58,7 @@ class EpurData:
         nnodes = nrods + 1
         self.K = [[ 0 for j in range(nnodes+1)] for k in range(nnodes)]
         for j in range(nrods):
-            d = self.rods[j][1]*self.E/self.rods[j][0]
+            d = self.rods[j][1]*self.elastic/self.rods[j][0]
             self.K[j][j]+=d
             self.K[j][j+1]-=d
             self.K[j+1][j]-=d

@@ -47,7 +47,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Стержни"))
         self.menu.setTitle(_translate("MainWindow", "&Файл"))
         self.menu_Nsma.setTitle(_translate("MainWindow", "&Nsma"))
         self.actionLoad.setText(_translate("MainWindow", "&Загрузить"))
